@@ -1,0 +1,25 @@
+services:
+  producer:
+    build: ./producer
+    container_name: data_producer
+    networks:
+      - app_network
+    expose:
+      - "5000"
+
+  consumer:
+    build: ./consumer
+    container_name: data_consumer
+    networks:
+      - app_network
+    volumes:
+      - logs:/data
+    depends_on:
+      - producer
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  logs:
